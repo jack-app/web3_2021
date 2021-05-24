@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+    <html lang="ja">
+        <head>
+            <meta charset="utf-8"/>
+            <link rel="stylesheet" href="file_app_dl.css">
+            <title>File App and Dl</title>
+            
+        </body>
+        </head>
+        <body>
+            
+            <input id="file-sample" type="file" name="avatar" accept=".png, .jpg, .jpeg, .pdf, .doc">
+            <p>学生番号を入力</p>
+            <textarea name="number" id="number" cols="10px" rows="1px"></textarea>
+            <p>氏名を入力</p>
+            <textarea name="name" id="name" cols="10px" rows="1px"></textarea>
+            <p><button id="button1">ダウンロード</button></p>
+            <p class="image"><img id="file-preview" height="500px" width="700px"></p>
+
+            <script>
+                document.getElementById("file-sample").addEventListener("change",function(e) {
+                    //1枚だけ表示する
+                    var file = e.target.files[0];
+
+                    //ファイルのブラウザ上でのURLを取得する
+                    var blobUrl = window.URL.createObjectURL(file);
+
+                    //img要素に表示
+                    var img = document.getElementById("file-preview");
+                    img.src  = blobUrl;
+                },false);
+
+                window.addEventListener('load', () => {
+                    const button1 = document.getElementById('button1');
+                    button1.addEventListener('click', button1_clicked);
+                });
+                
+                function button1_clicked(evt) {
+                    evt.preventDefault();
+                    var img = document.getElementById("file-preview");
+                    var number = document.getElementById("number").value;
+                    var name = document.getElementById("name").value;
+
+                    const a = document.createElement("a");
+                    document.body.appendChild(a);
+                    a.download = `${number}_${name}`;
+                    a.href = img.src;
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(img.src);
+                };
+                
+            </script>
+        </body>  
+    </html>
