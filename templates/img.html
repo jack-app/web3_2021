@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8"/>
+        <title>でもぺーじ</title>
+        <link rel="stylesheet" type="text/css" href="../static/library/cropper.css" />
+        <script type="text/javascript" src="../static/library/cropper.js"></script>
+        <script type="text/javascript" src="../static/library/jquery-3.1.1.js"></script>
+    </head>
+    <body>
+
+        <div>
+            <img id="cropper_img" src="../static/images/image_{{num}}.jpg" alt="./static/images/image_{{num}}.jpg">
+        </div>
+        <button id="crop_btn">切り抜き</button>
+        <div>
+            <p>切り抜き後の画像</p>
+            <form method = "post" enctype = "multipart/form-data">
+                <img id="result_img" name="resultImg"> 
+                <input type = "submit" value = "Upload">
+            </form>
+        </div>
+        
+        
+        <!-- <canvas id="canvas"></canvas> -->
+    
+        <script>
+            var cropperImg = document.getElementById('cropper_img');
+            var cropper = new Cropper(cropperImg);
+            
+            document.getElementById('crop_btn').addEventListener('click', function () {
+            resultImgUrl = cropper.getCroppedCanvas().toDataURL();
+            var result = document.getElementById('result_img');
+            result.src = resultImgUrl;
+            });
+            // window.addEventListener("DOMContentLoaded", function() {
+            //     // canvas準備
+            //     const canvas = document.getElementById("canvas");
+            //     const ctx = canvas.getContext("2d");
+    
+            //     // 画像読み込み
+            //     const img = new Image();
+            //     img.src = "./static/images/image_{{num}}.jpg";
+            //     img.addEventListener("load", function() {
+            //         canvas.width = img.naturalWidth;
+            //         canvas.height = img.naturalHeight;
+            //         ctx.drawImage(img, 0, 0);
+            //     }, false);
+            // }, false);
+        </script>
+    </body>
+</html>
