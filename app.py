@@ -1,4 +1,3 @@
-# import create_pdf_v
 import create_image
 import henkan_pdf
 import os
@@ -11,13 +10,14 @@ from flask.helpers import flash
 from werkzeug.utils import secure_filename
 # 画像のダウンロード
 from flask import send_from_directory
+import cv2
+import numpy as np
 # 画像のアップロード先のディレクトリ
-UPLOAD_FOLDER = './uploads'
+UPLOAD_FOLDER = './static/images'
 # アップロードされる拡張子の制限
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg'])
 
 app = Flask(__name__)
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allwed_file(filename):
@@ -37,58 +37,61 @@ def uploads_file():
         # データの取り出し
         file = request.files['file']
         # ファイル名がなかった時の処理
-        # if file.filename == '':
-        #     flash('ファイルがありません')
-        #     return redirect(request.url)
+        if file.filename == '':
+            flash('ファイルがありません')
+            return redirect(request.url)
         # ファイルのチェック
         if file and allwed_file(file.filename):
             # 危険な文字を削除（サニタイズ処理）
-            # filename = secure_filename(file.filename)
+            filename = secure_filename(file.filename)
+            num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name)) for name in os.listdir(UPLOAD_FOLDER))
             # ファイルの保存
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'base_image.jpg'))
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+            cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], "image_" + str(num) + ".jpg"), img)
             # アップロード後のページに転送
+            return redirect(url_for('uploaded_file', filename=filename))
+    return render_template('index.html')
+
+@app.route('/upload')
+# ファイルを表示する
+def uploaded_file():
+    print(request.args.get("filename"))
+    file_name = os.path.join(app.config['UPLOAD_FOLDER'], request.args.get("filename")).replace(os.sep, "/")
+    num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name)) for name in os.listdir(UPLOAD_FOLDER)) - 1
+    return render_template("img.html", num = num, fileUrl = file_name)
+    # return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
+@app.route('/upload', methods=['GET', 'POST'])
+def uploads_trimmedfile():
+    # リクエストがポストかどうかの判別
+    if request.method == 'POST':
+        # ファイルがなかった場合の処理
+        if 'file' not in request.files:
+            flash('ファイルがありません')
+            return redirect(request.url)
+        # データの取り出し
+        file = request.files['resultImg']
+        # ファイル名がなかった時の処理
+        if file.filename == '':
+            flash('ファイルがありません')
+            return redirect(request.url)
+        # ファイルのチェック
+        if file and allwed_file(file.filename):
+            # 危険な文字を削除（サニタイズ処理）
+            filename = secure_filename(file.filename)
+            num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name)) for name in os.listdir(UPLOAD_FOLDER))
+            # ファイルの保存
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'base_image.jpg'))
+#             img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+#             cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], "trimmedImage_" + str(num) + ".jpg"), img)
+            
+            # 画像ファイル1枚保存のみ対応
             create_image.create_image()
             henkan_pdf.henkan()
-            return redirect(url_for('uploaded_file', ))
-    return '''
-    <!doctype html>
-    <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>
-                ファイルをアップロードして判定しよう
-            </title>
-        </head>
-        <body>
-            <h1>
-                ファイルをアップロードして判定しよう
-            </h1>
-            <form method = post enctype = multipart/form-data>
-            <p><input type=file name = file></p>
-            <input type = submit value = Upload>
-            </form>
-        </body>
-    </html>
-'''
-
-# ファイルを表示する
-#@app.route('/uploads/<filename>')
-#def uploaded_file(filename):
-    #return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
-# ファイルを変形
-# @app.route('/uploads/create')#,methods = ['POST'])
-# def create_file(filename):
-#     #img_b = request.files['file']
-#     print(filename)
-#     #arranged = create_pdf_v.create_pdf()
-#     create_pdf_v.create_pdf()
-#     #return send_from_directory(app.config['UPLOAD_FOLDER'], arranged)
-#     return redirect(url_for('uploaded_file'))
-
-@app.route('/uploaded')
-def uploaded_file():
-    return 'アップロード完了'
+            # アップロード後のページに転送
+    return render_template("result.html")
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run(debug=True, port=5000)
