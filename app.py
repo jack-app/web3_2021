@@ -1,8 +1,11 @@
+import create_image
+import henkan_pdf
 import os
 # request フォームから送信した情報を扱うためのモジュール
 # redirect  ページの移動
 # url_for アドレス遷移
-from flask import Flask, request, redirect, url_for, render_template, flash
+from flask import Flask, request, redirect, url_for, render_template
+from flask.helpers import flash
 # ファイル名をチェックする関数
 from werkzeug.utils import secure_filename
 # 画像のダウンロード
@@ -15,15 +18,12 @@ UPLOAD_FOLDER = './static/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg'])
 
 app = Flask(__name__)
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SECRET_KEY'] = 'secret key'
 
 def allwed_file(filename):
     # .があるかどうかのチェックと、拡張子の確認
     # OKなら１、だめなら0
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 # ファイルを受け取る方法の指定
 @app.route('/', methods=['GET', 'POST'])
@@ -83,8 +83,13 @@ def uploads_trimmedfile():
             num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name)) for name in os.listdir(UPLOAD_FOLDER))
             # ファイルの保存
             # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-            cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], "trimmedImage_" + str(num) + ".jpg"), img)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'base_image.jpg'))
+#             img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+#             cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], "trimmedImage_" + str(num) + ".jpg"), img)
+            
+            # 画像ファイル1枚保存のみ対応
+            create_image.create_image()
+            henkan_pdf.henkan()
             # アップロード後のページに転送
     return render_template("result.html")
 
