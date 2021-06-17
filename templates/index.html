@@ -1,10 +1,161 @@
-{%- extends "layout.html" %}
-{%- block content %}
-    <h1>
-        ファイルをアップロードして判定しよう
-    </h1>
-    <form method = "post" enctype = "multipart/form-data">
-    <p><input type="file" name = "file">
-    <input type = "submit" value = "Upload"></p>
-    </form>
-{%- endblock %}
+{% extends "layout.html" %}
+{% block content %}
+<header>
+<div class="sub-title">レポサポ</div>
+<div class="inline">
+ <div class="title">レポ太郎</div>
+ <img src="アセット 1.png" alt="" class="pict">
+</div> 
+</header>
+<form method = "post" enctype = "multipart/form-data">
+<input type="file" name = "file" class="select-button" />
+<div class="select">画像を選択</div>
+<div class="edit-icon">
+    <a><img src="トリミングアイコン.png"　alt="" class="pic-1"></a>
+    <a><img src="フォルダ.png" alt="" class="pic-1"></a>
+    <a><img src="判子のフリー素材1 (2).png" alt="" class="pic-1"></a>
+    <a><img src="クエスチョンマーク.png" alt="" class="pic-1"></a>
+</div>
+<div class="edit">
+    <p>トリミング</p>
+    <p>ファイル名変更</p>
+    <p>名前スタンプ</p>
+    <p>使い方</p>
+</div>
+<div class="preview">
+    <img src="sozai_image_101085.jpg" alt="" class="pic">
+</div>
+<div class="warning">※提出様式を必ず確認してください</div>
+<div class="download-icon">
+  <input type = "submit" value = "Upload" class="pic-2" />
+</div>
+<div class="download">ダウンロード</div>
+</form>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
+
+header {
+    background-color: #006e4f;
+    height: 300px;
+}
+
+.sub-title {
+    color: #fff;
+    font-size: 50px;
+    margin-left: 120px;
+    padding-top: 40px;
+}
+
+.title {
+    color: #fff;
+    font-size: 100px;
+    text-align: center;
+    font-family: 'Reggae One', cursive;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    background: #006e4f;
+    color: #FFF;
+    width: 150px;
+    height: 150px;
+    line-height: 120px;
+    border-radius: 50%;
+    text-align: center;
+    margin-top: 100px;
+    margin-left: 75px;
+    font-weight: bold;
+}
+
+p {
+    display: inline;
+    color: #006e4f;
+    margin-left: 35px;
+    font-size: 35px;
+}
+
+.download-icon {
+  width: 350px; 
+  height: 130px;
+  margin-left: 300px;
+  margin-top: 100px;
+  background: #006e4f;
+  color: #FFF;
+  border-radius: 4px;
+  box-shadow: 0px 0px 0px 5px #006e4f;
+  border: dashed 1px #FFF;
+  background-image: "写真アイコン4.png"
+}
+
+.download {
+    text-align: center;
+    font-size: 50px;
+    color: #006e4f;
+    margin-top: 40px;
+}
+
+.preview {
+    height: 1000px;
+}
+
+.warning {
+    font-size: 30px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.pic {
+    width: 900px;
+    height: 900px;
+    padding-left: 30px;
+    padding-top: 30px;
+}
+
+.select-button {
+  width: 350px; 
+  height: 130px;
+  margin-left: 300px;
+  margin-top: 100px;
+  background: #006e4f;
+  color: #FFF;
+  border-radius: 4px;
+  box-shadow: 0px 0px 0px 5px #006e4f;
+  border: dashed 1px #FFF;
+  
+}
+
+.select {
+  color: #006e4f;
+  text-align: center;
+  font-size: 50px;
+  margin-top: 20px;
+}
+
+.pic-1 {
+    width: 138px;
+    height: 120px;
+    margin-top: 10px;
+}
+
+.pic-2 {
+    height: 100px;
+    width: 100px;
+    margin-left: 120px;
+    background-image: "ダウンロードアイコン.png";
+}
+
+.pic-3 {
+    height: 120px;
+    margin-left: 120px;
+}
+
+.pict {
+    margin-top: -150px;
+    float: right;
+    margin-right: 100px;
+    height: 180px;
+}
+</style>
+{% endblock %}
