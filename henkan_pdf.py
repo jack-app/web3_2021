@@ -11,7 +11,7 @@ def henkan():
 
     new_jpg = './trash/gorilla_text.jpg'
     pdf_p = './trash/gorilla_text.pdf'
-    pdf = './created/a_test.pdf'
+    pdf = './static/a_test.pdf'
 
     # 画像をファイルから読み込む
     image = Image.open(new_jpg)
