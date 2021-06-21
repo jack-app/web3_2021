@@ -8,23 +8,47 @@
 </div> 
 </header>
 <form method = "post" enctype = "multipart/form-data">
-<input type="file" name = "file" class="select-button" />
+<input type="file" multiple = "multiple" id="uploader" name = "file" class="select-button">
 <div class="select">画像を選択</div>
-<div class="edit-icon">
-    <a><img src="../static/image/トリミングアイコン.png"　alt="" class="pic-1"></a>
-    <a><img src="../static/image/フォルダ.png" alt="" class="pic-1"></a>
-    <a><img src="../static/image/判子のフリー素材1 (2).png" alt="" class="pic-1"></a>
-    <a><img src="../static/image/クエスチョンマーク.png" alt="" class="pic-1"></a>
-</div>
-<div class="edit">
+<div class="edit-icon edit">
+    <a><img src="../static/image/トリミングアイコン.png"　alt="" class="pic-1" id ="clopBtn"onClick="cropStart()"></a>
     <p>トリミング</p>
+    <a><img src="../static/image/フォルダ.png" alt="" class="pic-1" onclick="nyuuryokuStart()"></a>
     <p>ファイル名変更</p>
+    <a><img src="../static/image/判子のフリー素材1 (2).png" alt="" class="pic-1" onclick="nyuuryokuStart()"></a>
     <p>名前スタンプ</p>
+    <a><img src="../static/image/クエスチョンマーク.png" alt="" class="pic-1"></a>
     <p>使い方</p>
 </div>
-<div class="preview">
-    <img src="../static/image/sozai_image_101085.jpg" alt="" class="pic">
+
+
+<div id="cropArea"><!--cropAreaはトリミングボタンが押されたときに出てくる-->
+    <table>
+        <tr>
+            <th>トリミング</th>
+        </tr>
+        <tr>
+            <td><canvas id="sourceCanvas" width="1" height="1">お使いのブラウザではトリミング機能は使えません。</canvas></td>
+            <td>
+                <canvas id = "croppedCanvas" width="1" height="1" style.display="none"></canvas>
+            </td>
+          
+        </tr>
+    </table>
+    <button id="ajax-button">トリミング完了！</button>
+    
 </div>
+
+<div id="nyuuryoku" >
+    <h2>スタンプ・ファイル名用</h2>
+    <p>学籍番号を入力して下さい</p><br>
+    <input type="text" id="gakuseki"><br>
+    <p>自分の名前を入力して下さい</p><br>
+    <input type="text" id="myname"><br>
+    <button id="cookieKousin" onclick="cookieKousin()">内容更新</button><br>
+</div>
+
+
 <div class="warning">※提出様式を必ず確認してください</div>
 <div class="download-icon">
   <input type = "submit" value = "Upload" class="pic-2" />
@@ -32,6 +56,8 @@
 <div class="download">ダウンロード</div>
 </form>
 
+<script src="../static/js/cropperPart.js"></script>
+<script src="../static/js/nyuuryoku.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
 
