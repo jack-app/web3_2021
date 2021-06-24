@@ -1,46 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body id="body">
-    <link rel="stylesheet" type="text/css" media="all"
-    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" />
+window.onload = function() {
+    document.getElementById("cropArea").style.display ="none";
+};
+
+const cropStart = function () {
+    const uploader = document.getElementById('uploader');
+
+        const cropArea = document.getElementById("cropArea");
+
+	if(cropArea.style.display=="block"){
+		// noneで非表示
+		cropArea.style.display ="none";
+	}else{
+		// blockで表示
+		cropArea.style.display ="block";
+	}
+    }
     
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
-
-<input type="file" multiple = "multiple" id="uploader">
 
 
-<div>
-    <table>
-        <tr>
-            <th>元画像</th>
-        </tr>
-        <tr>
-            <td><canvas id="sourceCanvas" width="1" height="1"></canvas></td>
-          
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>クロップ後の画像</th>
-        </tr>
-        <tr>
-            <td valign="top"><canvas id="croppedCanvas" width="1" height="1"></canvas></td>
-        </tr>
-    </table>
-</div>
-
-<button id="download">download!</button>
-<button id="save">save</button>
-
-<script>
-    var saveCount = 0;
+var saveCount = 0;
     let cropper = null;
     const cropAspectRatio = NaN;
     
@@ -110,9 +88,11 @@
 
     const uploader = document.getElementById('uploader');
     uploader.addEventListener('change', cropImage);
+    
 
 
-    document.getElementById("save").onclick = (event) => {
+    //デバイスにダウンローどするやつ
+    /*document.getElementById("save").onclick = (event) => {
     let canvas = document.getElementById("croppedCanvas");
     window.localStorage[`img${saveCount}`] = canvas.toDataURL("image/jpg");//base64方式のtxtで保存される、img1,2,3...
     saveCount++;
@@ -121,22 +101,14 @@
     if(saveCount>0){
         var saveOK = document.createElement('p');
         saveOK.textContent = "saveOK";
-        document.getElementById("body").appendChild(saveOK)
+        document.getElementById("body").appendChild(saveOK);
     }
     }
 
     document.getElementById("download").onclick = (event) => {
     let canvas = document.getElementById("croppedCanvas");
-
     let link = document.createElement("a");
     link.href = canvas.toDataURL("image/jpg");
     link.download = "base_image.jpg";
     link.click();
-    }
-</script>
-
- 
-
-
-</body>
-</html>
+    }*/

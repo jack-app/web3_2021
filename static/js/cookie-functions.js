@@ -38,21 +38,33 @@ function deleteAll(){
 
 // 書き込み一つだけ
 function writeCookie(key,value) {  
-      document.cookie = `${key}`+ "=" + value;
+      document.cookie = `${key}`+ "=" + `${value}`;
       console.log(document.cookie);
   
 }
 
-// 読み込み一つだけ
-function readCookie() {
-  var tmp = document.cookie;
-  var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)mycookie\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  input1.value = cookieValue;
-  console.log(document.cookie);
-}
 
 // 削除一つだけ
 function deleteCookie(key) {
   document.cookie = `${key}=; expires=0`;
   console.log(document.cookie);
 }
+
+//keyのcookieを返す関数．
+function readCookie(key) {
+    
+        var cookies = document.cookie;
+        var cookieItem = cookies.split(";");
+        var cookieValue = "";
+  
+        for (i = 0; i < cookieItem.length; i++) {
+          var elem = cookieItem[i].split("=");
+          if (elem[0].trim() == `${key}`) {
+            cookieValue = unescape(elem[1]);//unescapeは16進数をデコードする関数
+          } else {
+            continue;
+          }
+        }
+        return cookieValue;
+    }
+  
