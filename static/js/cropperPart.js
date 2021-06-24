@@ -1,23 +1,3 @@
-window.onload = function() {
-    document.getElementById("cropArea").style.display ="none";
-};
-
-const cropStart = function () {
-    const uploader = document.getElementById('uploader');
-
-        const cropArea = document.getElementById("cropArea");
-
-	if(cropArea.style.display=="block"){
-		// noneで非表示
-		cropArea.style.display ="none";
-	}else{
-		// blockで表示
-		cropArea.style.display ="block";
-	}
-    }
-    
-
-
 var saveCount = 0;
     let cropper = null;
     const cropAspectRatio = NaN;
@@ -89,26 +69,3 @@ var saveCount = 0;
     const uploader = document.getElementById('uploader');
     uploader.addEventListener('change', cropImage);
     
-
-
-    //デバイスにダウンローどするやつ
-    /*document.getElementById("save").onclick = (event) => {
-    let canvas = document.getElementById("croppedCanvas");
-    window.localStorage[`img${saveCount}`] = canvas.toDataURL("image/jpg");//base64方式のtxtで保存される、img1,2,3...
-    saveCount++;
-    //localstrageを消すにはlocalstrage.crear();
-    //間違えてsaveしてしまった時用の消す画面が必要？
-    if(saveCount>0){
-        var saveOK = document.createElement('p');
-        saveOK.textContent = "saveOK";
-        document.getElementById("body").appendChild(saveOK);
-    }
-    }
-
-    document.getElementById("download").onclick = (event) => {
-    let canvas = document.getElementById("croppedCanvas");
-    let link = document.createElement("a");
-    link.href = canvas.toDataURL("image/jpg");
-    link.download = "base_image.jpg";
-    link.click();
-    }*/
