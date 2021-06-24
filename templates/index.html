@@ -6,31 +6,69 @@
  <div class="title">レポ太郎</div>
  <img src="../static/image/アセット 1.png" alt="" class="pict">
 </div> 
+
 </header>
-<form method = "post" enctype = "multipart/form-data">
-<input type="file" name = "file" class="select-button" />
+<!-- <form method = "post" enctype = "multipart/form-data"> -->
+<input type="file" name = "file[]" class="select-button" id="file_up" multiple/>
 <div class="select">画像を選択</div>
 <div class="edit-icon">
-    <a><img src="../static/image/トリミングアイコン.png"　alt="" class="pic-1"></a>
+    <a><img src="../static/image/トリミングアイコン.png" alt="" class="pic-1" >
+        <button id="crop_btn">トリミング</button></a>
+    
     <a><img src="../static/image/フォルダ.png" alt="" class="pic-1"></a>
     <a><img src="../static/image/判子のフリー素材1 (2).png" alt="" class="pic-1"></a>
     <a><img src="../static/image/クエスチョンマーク.png" alt="" class="pic-1"></a>
+    
 </div>
 <div class="edit">
     <p>トリミング</p>
     <p>ファイル名変更</p>
     <p>名前スタンプ</p>
     <p>使い方</p>
+
 </div>
-<div class="preview">
-    <img src="../static/image/sozai_image_101085.jpg" alt="" class="pic">
+<div class="preview" id="imgview">
 </div>
+
+<div class="cropview" id="cropArea">
+    <table>
+        <tr>
+            <td><canvas id="sourceCanvas" width="1" height="1"></canvas></td>
+            <td></canvas></td>
+        </tr>
+        <tr>
+            
+        </tr>
+    </table>
+    <button id="endCrop">終了</button>
+</div>
+
+<div id="cropimg">
+    <canvas id="croppedCanvas" width="1" height="1"></canvas>
+</div>
+
+
 <div class="warning">※提出様式を必ず確認してください</div>
 <div class="download-icon">
-  <input type = "submit" value = "Upload" class="pic-2" />
+    <form method="POST" action="../static/image/uploads" enctype="multipart/form-data">
+        <input type="image" id="imagePost" src="" alt="">
+        <input type="submit" value="送信" class="btn">
+    </form>
+  
 </div>
 <div class="download">ダウンロード</div>
 </form>
+
+<link rel="stylesheet" type="text/css" media="all"
+    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
+
+
+<script src="../static/library/js/file_up.js"></script>
+<script src="../static/library/js/crop.js"></script>
+
+
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
@@ -97,6 +135,7 @@ p {
 
 .preview {
     height: 1000px;
+    overflow-x:scroll;
 }
 
 .warning {
@@ -105,11 +144,12 @@ p {
     margin-top: 80px;
 }
 
+
 .pic {
-    width: 900px;
-    height: 900px;
+    width: 90%;
+    height: 90%;
+    margin: 50px;
     padding-left: 30px;
-    padding-top: 30px;
 }
 
 .select-button {
