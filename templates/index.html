@@ -13,9 +13,9 @@
 <div class="edit-icon edit">
     <a><img src="../static/image/トリミングアイコン.png"　alt="" class="pic-1" id ="clopBtn"onClick="cropStart()"></a>
     <p>トリミング</p>
-    <a><img src="../static/image/フォルダ.png" alt="" class="pic-1" onclick="nyuuryokuStart()"></a>
+    <a><img src="../static/image/フォルダ.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeFile"></a>
     <p>ファイル名変更</p>
-    <a><img src="../static/image/判子のフリー素材1 (2).png" alt="" class="pic-1" onclick="nyuuryokuStart()"></a>
+    <a><img src="../static/image/判子のフリー素材1 (2).png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeStamp"></a>
     <p>名前スタンプ</p>
     <a><img src="../static/image/クエスチョンマーク.png" alt="" class="pic-1"></a>
     <p>使い方</p>
@@ -30,7 +30,7 @@
         <tr>
             <td><canvas id="sourceCanvas" width="1" height="1">お使いのブラウザではトリミング機能は使えません。</canvas></td>
             <td>
-                <canvas id = "croppedCanvas" width="1" height="1" style.display="none"></canvas>
+                <canvas id = "croppedCanvas" width="1" height="1" hidden></canvas>
             </td>
           
         </tr>
@@ -46,6 +46,16 @@
     <p>自分の名前を入力して下さい</p><br>
     <input type="text" id="myname"><br>
     <button id="cookieKousin" onclick="cookieKousin()">内容更新</button><br>
+</div>
+
+<div id="filename"　>
+    <p>ファイル名</p>
+    <input type="text" id="fileNameInput">
+</div>
+
+<div id="stamp">
+    <p>スタンプ</p>
+    <input type="text" id="stampPreviw">
 </div>
 
 

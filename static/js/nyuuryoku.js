@@ -1,6 +1,8 @@
 window.onload = function() {
     const nyuuryoku = document.getElementById("nyuuryoku");
     nyuuryoku.style.display ="none";
+    const filename = document.getElementById("filename");
+    filename.style.display ="none";
 };
 
 
@@ -8,16 +10,23 @@ const nyuuryokuStart = function(){
         if(nyuuryoku.style.display=="block"){
 		// noneで非表示
 		nyuuryoku.style.display ="none";
+        filename.style.display ="none";
 	    }else{
 		// blockで表示
 		nyuuryoku.style.display ="block";
+        filename.style.display ="block";
 	    }
     }
+const changeFile = function(){
+        filename.value = 
+}
     
 
 const cookieKousin = function(){
         const gakuseki = document.getElementById("gakuseki").value;
         const myname = document.getElementById("myname").value;
+        const preview = document.getElementById("fileNameInput").value;
+        preview = `${gakuseki}`+"_"+`${myname}`;
         if(gakuseki===undefined||myname===undefined){
             alert("学籍番号と名前を入力して下さい");
         }else{
