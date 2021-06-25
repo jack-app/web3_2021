@@ -23,6 +23,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.secret_key = 'web3'
 
+
 def allwed_file(filename):
     # .があるかどうかのチェックと、拡張子の確認
     # OKなら１、だめなら0
@@ -51,13 +52,16 @@ def uploads_file():
             return redirect(request.url)
             # ファイルのチェック
         if file and allwed_file(file.filename):
-                # 危険な文字を削除（サニタイズ処理）
+            # 危険な文字を削除（サニタイズ処理）
             filename = secure_filename(file.filename)
-            num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name)) for name in os.listdir(UPLOAD_FOLDER))
-                # ファイルの保存
-                # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-            cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], "image_" + str(num) + ".jpg"), img)
+            num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
+                      for name in os.listdir(UPLOAD_FOLDER))
+            # ファイルの保存
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            img = cv2.imdecode(np.fromstring(
+                file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+            cv2.imwrite(os.path.join(
+                app.config['UPLOAD_FOLDER'], "image_" + str(num) + ".jpg"), img)
             create_image.create_image()
             henkan_pdf.henkan()
             # アップロード後のページに転送
@@ -66,13 +70,16 @@ def uploads_file():
             return render_template("index.html", ImgSrc="image/uploads/image_"+str(num)+".jpg")
     return render_template('index.html', ImgSrc="image/sozai_image_101085.jpg")
 
+
 @app.route('/upload')
 # ファイルを表示する
 def uploaded_file():
     print(request.args.get("filename"))
-    file_name = os.path.join(app.config['UPLOAD_FOLDER'], request.args.get("filename")).replace(os.sep, "/")
-    num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name)) for name in os.listdir(UPLOAD_FOLDER)) - 1
-    return render_template("img.html", num = num, fileUrl = file_name)
+    file_name = os.path.join(app.config['UPLOAD_FOLDER'], request.args.get(
+        "filename")).replace(os.sep, "/")
+    num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
+              for name in os.listdir(UPLOAD_FOLDER)) - 1
+    return render_template("img.html", num=num, fileUrl=file_name)
     # return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 # @app.route('/upload', methods=['GET', 'POST'])
@@ -102,12 +109,13 @@ def uploaded_file():
 #                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'base_image.jpg'))
 # #             img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
 # #             cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], "trimmedImage_" + str(num) + ".jpg"), img)
-            
+
 #             # 画像ファイル1枚保存のみ対応
 #             create_image.create_image()
 #             henkan_pdf.henkan()
 #             # アップロード後のページに転送
 #     return render_template("result.html")
+
 
 if __name__ == "__main__":
     app.run()
