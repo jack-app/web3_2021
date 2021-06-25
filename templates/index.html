@@ -8,16 +8,19 @@
 </div> 
 </header>
 <form method = "post" enctype = "multipart/form-data">
-<input type="file" multiple = "multiple" id="uploader" name = "file" class="select-button">
+<label>
+ <div class="select-button"></div>
+ <input type="file" multiple = "multiple" id="uploader" name = "file" class="test">
+</label>
 <div class="select">画像を選択</div>
 <div class="edit-icon edit">
-    <a><img src="../static/image/トリミングアイコン.png"　alt="" class="pic-1" id ="clopBtn"onClick="cropStart()"></a>
+    <a><img src="../static/image/triming.png"　alt="" class="pic-1" id ="clopBtn"onClick="cropStart()"></a>
     <p>トリミング</p>
-    <a><img src="../static/image/フォルダ.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeFile"></a>
+    <a><img src="../static/image/naming.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeFile"></a>
     <p>ファイル名変更</p>
-    <a><img src="../static/image/判子のフリー素材1 (2).png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeStamp"></a>
+    <a><img src="../static/image/stump.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeStamp"></a>
     <p>名前スタンプ</p>
-    <a><img src="../static/image/クエスチョンマーク.png" alt="" class="pic-1"></a>
+    <a><img src="../static/image/help.png" alt="" class="pic-1"></a>
     <p>使い方</p>
 </div>
 
@@ -40,29 +43,30 @@
 </div>
 
 <div id="nyuuryoku" >
-    <h2>スタンプ・ファイル名用</h2>
+    <h2>スタンプ・ファイル名入力フォーム</h2>
     <p>学籍番号を入力して下さい</p><br>
-    <input type="text" id="gakuseki"><br>
+    <input type="text" id="gakuseki" class="form"><br>
     <p>自分の名前を入力して下さい</p><br>
-    <input type="text" id="myname"><br>
-    <button id="cookieKousin" onclick="cookieKousin()">内容更新</button><br>
-</div>
+    <input type="text" id="myname" class="form"><br>
+    <button id="cookieKousin" onclick="cookieKousin()" class="update">内容更新</button><br>
 
+<h3>今保存されている情報</h3>    
 <div id="filename"　>
     <p>ファイル名</p>
-    <input type="text" id="fileNameInput">
+    <input type="text" id="fileNameInput" class="naming-form">
 </div>
 
 <div id="stamp">
-    <p>スタンプ</p>
-    <input type="text" id="stampPreviw">
+    <p>スタンプ名</p>
+    <input type="text" id="stampPreviw" class="naming-form">
 </div>
 
 
 <div class="warning">※提出様式を必ず確認してください</div>
-<div class="download-icon">
+<label>
+  <div class="download-button"></div>
   <input type = "submit" value = "Upload" class="pic-2" />
-</div>
+</label>
 <div class="download">ダウンロード</div>
 </form>
 
@@ -76,40 +80,41 @@ header {
     height: 300px;
 }
 
+.form {
+    margin-left: 280px;
+    height: 30px;
+    width: 300px;
+    border-width: 5px;
+}
+
+.naming-form {
+    margin-left: 200px;
+    width: 300px;
+    height: 30px;
+    border-width: 5px;
+}
+
 .sub-title {
     color: #fff;
     font-size: 50px;
     margin-left: 120px;
     padding-top: 40px;
+    font-family: 'Reggae One', cursive;
 }
 
 .title {
     color: #fff;
     font-size: 100px;
     text-align: center;
-}
-
-a {
-    display: inline-block;
-    text-decoration: none;
-    background: #006e4f;
-    color: #FFF;
-    width: 150px;
-    height: 150px;
-    line-height: 120px;
-    border-radius: 50%;
-    text-align: center;
-    margin-top: 100px;
-    margin-left: 75px;
-    font-weight: bold;
+    font-family: 'Reggae One', cursive;
 }
 
 p {
-    display: inline;
+    display: inline-block;
     color: #006e4f;
-    margin-left: 35px;
-    font-size: 35px;
+    font-weight: bold;
 }
+
 
 .download-icon {
   width: 350px; 
@@ -131,8 +136,8 @@ p {
     margin-top: 40px;
 }
 
-.preview {
-    height: 1000px;
+h3 {
+    font-size: 20px;
 }
 
 .warning {
@@ -149,16 +154,15 @@ p {
 }
 
 .select-button {
-  width: 350px; 
-  height: 130px;
-  margin-left: 300px;
-  margin-top: 100px;
-  background: #006e4f;
-  color: #FFF;
-  border-radius: 4px;
-  box-shadow: 0px 0px 0px 5px #006e4f;
-  border: dashed 1px #FFF;
-  
+  background-image: url(../static/image/upload.png);
+  height: 220px;
+  width: 550px;
+  margin-left: 200px;
+  margin-top: 40px;
+}
+
+.test {
+    display: none;
 }
 
 .select {
@@ -174,11 +178,17 @@ p {
     margin-top: 10px;
 }
 
+.download-button {
+    background-image: url(../static/image/download.png);
+    background-repeat: no-repeat;
+    height: 250px;
+    margin-left: 230px;
+    background-size: 500px;
+
+}
+
 .pic-2 {
-    height: 100px;
-    width: 100px;
-    margin-left: 120px;
-    background-image: "ダウンロードアイコン.png";
+    display: none;
 }
 
 .pic-3 {
@@ -192,5 +202,19 @@ p {
     margin-right: 100px;
     height: 180px;
 }
+
+h2 {
+    margin-top: 50px;
+}
+
+.update {
+    margin-left: 700px;
+    height: 50px;
+    width: 100px;
+    font-size: 20px;
+    color: #006e4f;
+}
+
+
 </style>
 {% endblock %}
