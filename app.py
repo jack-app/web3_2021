@@ -1,19 +1,15 @@
 import create_image
 import henkan_pdf
 import os
-# request フォームから送信した情報を扱うためのモジュール
-# redirect  ページの移動
-# url_for アドレス遷移
 from flask import Flask, request, redirect, url_for, render_template
 from flask.helpers import flash
-# ファイル名をチェックする関数
 from werkzeug.utils import secure_filename
-# 画像のダウンロード
 from flask import send_from_directory, jsonify
 import cv2
 import numpy as np
 import json
 import base64
+from datetime import datetime 
 
 # 画像のアップロード先のディレクトリ
 UPLOAD_FOLDER = './static/image/uploads'
@@ -39,7 +35,17 @@ def triming():
     img = data['img']
     idx = img.find(',')
     img = img[idx+1:]
-    with open('test.png', mode='wb') as f:
+
+    now = datetime.now()
+    time = now.strftime('%Y%m%d_%H%M%S')
+
+    num = sum(
+        os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
+        for name in os.listdir(UPLOAD_FOLDER))
+    file_name = os.path.join(app.config['UPLOAD_FOLDER'],
+             "image_" + str(num) + ".jpg")
+
+    with open(file_name, mode='wb') as f:
         decoded = base64.b64decode(img.encode("utf-8").decode())
         f.write(decoded)
     return jsonify({'message': 'hello internal'}), 200
@@ -52,42 +58,25 @@ def uploads_file():
     # username = escape(session['username'])
     # リクエストがポストかどうかの判別
     if request.method == 'POST':
-        # ファイルがなかった場合の処理
-        if 'file' not in request.files:
-            flash('ファイルがありません')
-            return redirect(request.url)
-        # データの取り出し
-        file = request.files['file']
-        # files = request.files.getlist['file']
-        print(file)
-        print(request.files['file'])
-        # ファイル名がなかった時の処理
-        # for file in files:
-        if file.filename == '':
-            flash('ファイルがありません')
-            return redirect(request.url)
-            # ファイルのチェック
-        if file and allwed_file(file.filename):
-            # 危険な文字を削除（サニタイズ処理）
-            filename = secure_filename(file.filename)
-            num = sum(
-                os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
-                for name in os.listdir(UPLOAD_FOLDER))
-            # ファイルの保存
-            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            img = cv2.imdecode(np.fromstring(file.read(), np.uint8),
-                               cv2.IMREAD_UNCHANGED)
-            cv2.imwrite(
-                os.path.join(app.config['UPLOAD_FOLDER'],
-                             "image_" + str(num) + ".jpg"), img)
-            create_image.create_image()
-            henkan_pdf.henkan()
-            # アップロード後のページに転送
-            #         return redirect(url_for('uploaded_file', filename=filename))
-            # return render_template('index.html')
-            return render_template("index.html",
-                                   ImgSrc="image/uploads/image_" + str(num) +
-                                   ".jpg")
+        max_age = 60 * 60 * 24
+        expires = int(datetime.now().timestamp())
+        myname = request.cookies.get("myname",None)
+        gakuseki = request.cookies.get("gakuseki",None)
+
+        create_image.create_image(myname, gakuseki)
+        henkan_pdf.henkan(myname, gakuseki)
+        # アップロード後のページに転送
+        #         return redirect(url_for('uploaded_file', filename=filename))
+        # return render_template('index.html')
+        created_pdf = os.path.join('./static/image/uploads/' + gakuseki + '_' + myname + '.pdf')
+        if os.path.exists(created_pdf):
+            downloadFileName = gakuseki + '_' + myname + '.pdf'
+            downloadFile = created_pdf
+            print("download")
+            # ダウンロードを実行
+            return send_file(downloadFile, as_attachment = True, \
+                attachment_filename = downloadFileName, \
+                mimetype = PDF_MIMETYPE),shutil.rmtree('./static/image/uploads'),os.mkdir('./static/image/uploads')
     return render_template('index.html', ImgSrc="image/sozai_image_101085.jpg")
 
 

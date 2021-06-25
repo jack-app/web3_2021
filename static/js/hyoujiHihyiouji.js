@@ -21,15 +21,15 @@ const cropStart = function() {
     }
 }
 
-const nyuuryokuStart = function(){
-    if(nyuuryoku.style.display=="block"){
-        // noneで非表示
-        nyuuryoku.style.display ="none";
-	}else{
-        // blockで表示
-        nyuuryoku.style.display ="block";
-	}
-}
+// const nyuuryokuStart = function(){
+//     if(nyuuryoku.style.display=="block"){
+//         // noneで非表示
+//         nyuuryoku.style.display ="none";
+// 	}else{
+//         // blockで表示
+//         nyuuryoku.style.display ="block";
+// 	}
+// }
 
 const filenameStart = function(){
     if(filename.style.display=="block"){

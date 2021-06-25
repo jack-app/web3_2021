@@ -5,9 +5,7 @@ import os
 import shutil
 
 
-def create_image():
-    # import os
-    # import shutil
+def create_image(myname,gakuseki):
 
     trash_path = "./trash"
     if not os.path.exists(trash_path):
@@ -16,28 +14,27 @@ def create_image():
         shutil.rmtree(trash_path)
         os.mkdir(trash_path)
 
-    # from flask import request
-    rabel = "./trash/image.png"
+    rabel = "./trash/image.png"           
     rabel_r = './trash/image_rotated.png'
-    # img_b = request.files['file']  #ここの変数に入力されたファイル名を代入したい
-    img_b = './uploads/base_image.jpg'
-    new_jpg = './trash/gorilla_text.jpg'
-    # pdf_p = './trash/gorilla_text.pdf'
-    # pdf = './created/gorilla-test.pdf'
+    # img_b = os.path.join('./static/image/uploads/' + time + '_0_' + gakuseki + '.jpg')
+    img_b = os.path.join('./static/image/uploads/image_1.jpg')
+    
+    #画像サイズを取得
+
+    img_1 = Image.open(img_b)
+    width = img_1.width
+    height = img_1.height
 
     # create_rabel
 
-    # import PIL.Image
-    # import PIL.ImageDraw
-    # import PIL.ImageFont
-
     # 使うフォント，サイズ，描くテキストの設定
     ttfontname = "./fonts/GenShinGothic-Monospace-Medium.ttf"
-    fontsize = 64
-    text = "名古屋大学情報学部自然情報学科　矢島夏希"
+    fontsize = 64*height//4032
+    text = gakuseki + '_' + myname
 
     # 画像サイズ，背景色，フォントの色を設定
-    canvasSize = (2000, 150)
+    # トリミングされてない画像だとcanvasSize = (2000, 150) 
+    canvasSize = (width*2000//3024, height*150//4032)
     backgroundRGB = (255, 255, 255)
     textRGB = (0, 0, 0)
 
@@ -54,8 +51,8 @@ def create_image():
 
     img.save(rabel)
 
-    # rotate_rabel
-    # from PIL import Image
+    #rotate_rabel
+    
     original_image = Image.open(rabel)
 
     roated_image = original_image.rotate(
@@ -63,12 +60,12 @@ def create_image():
 
     roated_image.save(rabel_r)
 
-    # rabeling
-    img_1 = Image.open(img_b)
+        #rabeling
+
     img_2 = Image.open(rabel_r)
 
     img_1_2 = img_1.copy()
 
-    img_1_2.paste(img_2, (50, 50))
+    img_1_2.paste(img_2,(50*width//3024,50*height//4032))
 
-    img_1_2.save(new_jpg)
+    img_1_2.save(os.path.join('./static/image/uploads/image_0.jpg'))
