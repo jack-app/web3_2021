@@ -2,19 +2,11 @@ $(function() {
     $('#ajax-button').click(
         function() {
             console.log("send!");
-            var hostUrl = '/';
+            var hostUrl = '/triming';
             let canvas = document.getElementById("croppedCanvas");
             var imgData = canvas.toDataURL("image/jpg");
-            $.ajax({
-                url: hostUrl,
-                type: 'POST',
-                dataType: 'json',
-                data: { img: imgData },
-                timeout: 3000,
-            }).done(function(data) {
-                alert("ok");
-            }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("error");
-            })
+            axios.post(hostUrl, { img: imgData })
+                .then((res) => alert("ok"))
+                .catch((res) => alert(res))
         });
 });

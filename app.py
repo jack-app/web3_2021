@@ -9,9 +9,11 @@ from flask.helpers import flash
 # ファイル名をチェックする関数
 from werkzeug.utils import secure_filename
 # 画像のダウンロード
-from flask import send_from_directory
+from flask import send_from_directory, jsonify
 import cv2
 import numpy as np
+import json
+import base64
 
 # 画像のアップロード先のディレクトリ
 UPLOAD_FOLDER = './static/image/uploads'
@@ -27,7 +29,21 @@ app.secret_key = 'web3'
 def allwed_file(filename):
     # .があるかどうかのチェックと、拡張子の確認
     # OKなら１、だめなら0
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit(
+        '.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/triming', methods=['POST'])
+def triming():
+    data = json.loads(request.data)
+    img = data['img']
+    idx = img.find(',')
+    img = img[idx+1:]
+    with open('test.png', mode='wb') as f:
+        decoded = base64.b64decode(img.encode("utf-8").decode())
+        f.write(decoded)
+    return jsonify({'message': 'hello internal'}), 200
+
 
 # ファイルを受け取る方法の指定
 @app.route('/', methods=['GET', 'POST'])
@@ -54,20 +70,24 @@ def uploads_file():
         if file and allwed_file(file.filename):
             # 危険な文字を削除（サニタイズ処理）
             filename = secure_filename(file.filename)
-            num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
-                      for name in os.listdir(UPLOAD_FOLDER))
+            num = sum(
+                os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
+                for name in os.listdir(UPLOAD_FOLDER))
             # ファイルの保存
             # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            img = cv2.imdecode(np.fromstring(
-                file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-            cv2.imwrite(os.path.join(
-                app.config['UPLOAD_FOLDER'], "image_" + str(num) + ".jpg"), img)
+            img = cv2.imdecode(np.fromstring(file.read(), np.uint8),
+                               cv2.IMREAD_UNCHANGED)
+            cv2.imwrite(
+                os.path.join(app.config['UPLOAD_FOLDER'],
+                             "image_" + str(num) + ".jpg"), img)
             create_image.create_image()
             henkan_pdf.henkan()
             # アップロード後のページに転送
-    #         return redirect(url_for('uploaded_file', filename=filename))
-    # return render_template('index.html')
-            return render_template("index.html", ImgSrc="image/uploads/image_"+str(num)+".jpg")
+            #         return redirect(url_for('uploaded_file', filename=filename))
+            # return render_template('index.html')
+            return render_template("index.html",
+                                   ImgSrc="image/uploads/image_" + str(num) +
+                                   ".jpg")
     return render_template('index.html', ImgSrc="image/sozai_image_101085.jpg")
 
 
@@ -75,12 +95,15 @@ def uploads_file():
 # ファイルを表示する
 def uploaded_file():
     print(request.args.get("filename"))
-    file_name = os.path.join(app.config['UPLOAD_FOLDER'], request.args.get(
-        "filename")).replace(os.sep, "/")
-    num = sum(os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
-              for name in os.listdir(UPLOAD_FOLDER)) - 1
+    file_name = os.path.join(app.config['UPLOAD_FOLDER'],
+                             request.args.get("filename")).replace(
+                                 os.sep, "/")
+    num = sum(
+        os.path.isfile(os.path.join(UPLOAD_FOLDER, name))
+        for name in os.listdir(UPLOAD_FOLDER)) - 1
     return render_template("img.html", num=num, fileUrl=file_name)
     # return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
 
 # @app.route('/upload', methods=['GET', 'POST'])
 # def uploads_trimmedfile():
@@ -116,6 +139,5 @@ def uploaded_file():
 #             # アップロード後のページに転送
 #     return render_template("result.html")
 
-
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
