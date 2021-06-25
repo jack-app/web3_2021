@@ -1,13 +1,14 @@
+import PyPDF2
+import shutil
+from matplotlib.backends.backend_pdf import PdfPages
+import numpy as np
 import matplotlib
 from PIL import Image
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
-import numpy as np
-from matplotlib.backends.backend_pdf import PdfPages
-import shutil
-import PyPDF2
+
+
 def henkan():
-    
 
     new_jpg = './trash/gorilla_text.jpg'
     pdf_p = './trash/gorilla_text.pdf'
@@ -32,8 +33,7 @@ def henkan():
     # PDFの保存終了
     pp.close()
 
-
-    #pdfを回転させる
+    # pdfを回転させる
 
     reader = PyPDF2.PdfFileReader(pdf_p, strict=False)
 
@@ -52,6 +52,5 @@ def henkan():
 
     with open(pdf, mode='wb') as f:
         writer.write(f)
-    
-    
+
     shutil.rmtree("./trash")
