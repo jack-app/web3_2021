@@ -1,75 +1,76 @@
 {% extends "layout.html" %}
 {% block content %}
 <header>
-<div class="sub-title">レポサポ</div>
-<div class="inline">
- <div class="title">レポ太郎</div>
- <img src="../static/image/アセット 1.png" alt="" class="pict">
-</div> 
+    <div class="sub-title">レポサポ</div>
+    <div class="inline">
+        <div class="title">レポ太郎</div>
+        <img src="../static/image/アセット 1.png" alt="" class="pict">
+    </div>
 </header>
-<form method = "post" enctype = "multipart/form-data">
-<label>
- <div class="select-button"></div>
- <input type="file" multiple = "multiple" id="uploader" name = "file" class="test">
-</label>
-<div class="select">画像を選択</div>
-<div class="edit-icon edit">
-    <a><img src="../static/image/triming.png"　alt="" class="pic-1" id ="clopBtn"onClick="cropStart()"></a>
-    <p>トリミング</p>
-    <a><img src="../static/image/naming.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeFile"></a>
-    <p>ファイル名変更</p>
-    <a><img src="../static/image/stump.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeStamp"></a>
-    <p>名前スタンプ</p>
-    <a><img src="../static/image/help.png" alt="" class="pic-1"></a>
-    <p>使い方</p>
-</div>
+<form method="post" enctype="multipart/form-data">
+    <label>
+        <div class="select-button"></div>
+        <input type="file" multiple="multiple" id="uploader" name="file" class="test">
+    </label>
+    <div class="select">画像を選択</div>
+    <div class="edit-icon edit">
+        <a><img src="../static/image/triming.png" 　alt="" class="pic-1" id="clopBtn" onClick="cropStart()"></a>
+        <p>トリミング</p>
+        <a><img src="../static/image/naming.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeFile"></a>
+        <p>ファイル名変更</p>
+        <a><img src="../static/image/stump.png" alt="" class="pic-1" onclick="nyuuryokuStart()" id="changeStamp"></a>
+        <p>名前スタンプ</p>
+        <a><img src="../static/image/help.png" alt="" class="pic-1"></a>
+        <p>使い方</p>
+    </div>
 
 
-<div id="cropArea"><!--cropAreaはトリミングボタンが押されたときに出てくる-->
-    <table>
-        <tr>
-            <th>トリミング</th>
-        </tr>
-        <tr>
-            <td><canvas id="sourceCanvas" width="1" height="1">お使いのブラウザではトリミング機能は使えません。</canvas></td>
-            <td>
-                <canvas id = "croppedCanvas" width="1" height="1" hidden></canvas>
-            </td>
-          
-        </tr>
-    </table>
-    <button id="ajax-button">トリミング完了！</button>
-    
-</div>
+    <div id="cropArea">
+        <!--cropAreaはトリミングボタンが押されたときに出てくる-->
+        <table>
+            <tr>
+                <th>トリミング</th>
+            </tr>
+            <tr>
+                <td><canvas id="sourceCanvas" width="1" height="1">お使いのブラウザではトリミング機能は使えません。</canvas></td>
+                <td>
+                    <canvas id="croppedCanvas" width="1" height="1" hidden></canvas>
+                </td>
 
-<div id="nyuuryoku" >
-    <h2>スタンプ・ファイル名入力フォーム</h2>
-    <p>学籍番号を入力して下さい</p><br>
-    <input type="text" id="gakuseki" class="form"><br>
-    <p>自分の名前を入力して下さい</p><br>
+            </tr>
+        </table>
+        <button id="ajax-button">トリミング完了！</button>
 
-    <input type="text" id="myname" class="form"><br>
-    <button id="cookie-kousin" type="button" onclick="cookieKousin();" class="update">内容更新</button><br>
- </div> 
+    </div>
 
-<h3>今保存されている情報</h3>    
-<div id="filename"　>
-    <p>ファイル名</p>
-    <input type="text" id="fileNameInput" class="naming-form">
-</div>
+    <div id="nyuuryoku">
+        <h2>スタンプ・ファイル名入力フォーム</h2>
+        <p>学籍番号を入力して下さい</p><br>
+        <input type="text" id="gakuseki" class="form"><br>
+        <p>自分の名前を入力して下さい</p><br>
 
-<div id="stamp">
-    <p>スタンプ名</p>
-    <input type="text" id="stampPreviw" class="naming-form">
-</div>
+        <input type="text" id="myname" class="form"><br>
+        <button id="cookie-kousin" type="button" onclick="cookieKousin();" class="update">内容更新</button><br>
+    </div>
+
+    <h3>今保存されている情報</h3>
+    <div id="filename" 　>
+        <p>ファイル名</p>
+        <input type="text" id="fileNameInput" class="naming-form">
+    </div>
+
+    <div id="stamp">
+        <p>スタンプ名</p>
+        <input type="text" id="stampPreviw" class="naming-form">
+    </div>
 
 
-<div class="warning">※提出様式を必ず確認してください</div>
-<label>
-  <div class="download-button"></div>
-  <input type = "submit" value = "Upload" class="pic-2" />
-</label>
-<div class="download">ダウンロード</div>
+    <div class="warning">※提出様式を必ず確認してください</div>
+    <label>
+        <div class="download-button"></div>
+        <input type="submit" value="Upload" class="pic-2" />
+    </label>
+    <div class="download">ダウンロード</div>
 </form>
 
 <script src="../static/js/cropperPart.js"></script>
@@ -78,148 +79,144 @@
 <script src="../static/js/cropPost.js"></script>
 <script src="../static/js/hyoujiHihyiouji.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
 
-header {
-    background-color: #006e4f;
-    height: 300px;
-}
+    header {
+        background-color: #006e4f;
+        height: 300px;
+    }
 
-.form {
-    margin-left: 280px;
-    height: 30px;
-    width: 300px;
-    border-width: 5px;
-}
+    .form {
+        height: 30px;
+        width: 300px;
+        border-width: 5px;
+    }
 
-.naming-form {
-    margin-left: 200px;
-    width: 300px;
-    height: 30px;
-    border-width: 5px;
-}
+    .naming-form {
+        width: 300px;
+        height: 30px;
+        border-width: 5px;
+    }
 
-.sub-title {
-    color: #fff;
-    font-size: 50px;
-    margin-left: 120px;
-    padding-top: 40px;
-    font-family: 'Reggae One', cursive;
-}
+    .sub-title {
+        color: #fff;
+        font-size: 50px;
+        margin-left: 120px;
+        padding-top: 40px;
+        font-family: 'Reggae One', cursive;
+    }
 
-.title {
-    color: #fff;
-    font-size: 100px;
-    text-align: center;
-    font-family: 'Reggae One', cursive;
-}
+    .title {
+        color: #fff;
+        font-size: 100px;
+        text-align: center;
+        font-family: 'Reggae One', cursive;
+    }
 
-p {
-    display: inline-block;
-    color: #006e4f;
-    font-weight: bold;
-}
+    p {
+        display: inline-block;
+        color: #006e4f;
+        font-weight: bold;
+    }
 
 
-.download-icon {
-  width: 350px; 
-  height: 130px;
-  margin-left: 300px;
-  margin-top: 100px;
-  background: #006e4f;
-  color: #FFF;
-  border-radius: 4px;
-  box-shadow: 0px 0px 0px 5px #006e4f;
-  border: dashed 1px #FFF;
-  background-image: "写真アイコン4.png"
-}
+    .download-icon {
+        width: 350px;
+        height: 130px;
+        margin-left: 300px;
+        margin-top: 100px;
+        background: #006e4f;
+        color: #FFF;
+        border-radius: 4px;
+        box-shadow: 0px 0px 0px 5px #006e4f;
+        border: dashed 1px #FFF;
+        background-image: "写真アイコン4.png"
+    }
 
-.download {
-    text-align: center;
-    font-size: 50px;
-    color: #006e4f;
-    margin-top: 40px;
-}
+    .download {
+        text-align: center;
+        font-size: 50px;
+        color: #006e4f;
+        margin-top: 40px;
+    }
 
-h3 {
-    font-size: 20px;
-}
+    h3 {
+        font-size: 20px;
+    }
 
-.warning {
-    font-size: 30px;
-    text-align: center;
-    margin-top: 80px;
-}
+    .warning {
+        font-size: 30px;
+        text-align: center;
+        margin-top: 80px;
+    }
 
-.pic {
-    width: 900px;
-    height: 900px;
-    padding-left: 30px;
-    padding-top: 30px;
-}
+    .pic {
+        width: 900px;
+        height: 900px;
+        padding-left: 30px;
+        padding-top: 30px;
+    }
 
-.select-button {
-  background-image: url(../static/image/upload.png);
-  height: 220px;
-  width: 550px;
-  margin-left: 200px;
-  margin-top: 40px;
-}
+    .select-button {
+        background-image: url(../static/image/upload.png);
+        height: 220px;
+        width: 550px;
+        margin-left: 200px;
+        margin-top: 40px;
+    }
 
-.test {
-    display: none;
-}
+    .test {
+        display: none;
+    }
 
-.select {
-  color: #006e4f;
-  text-align: center;
-  font-size: 50px;
-  margin-top: 20px;
-}
+    .select {
+        color: #006e4f;
+        text-align: center;
+        font-size: 50px;
+        margin-top: 20px;
+    }
 
-.pic-1 {
-    width: 138px;
-    height: 120px;
-    margin-top: 10px;
-}
+    .pic-1 {
+        width: 138px;
+        height: 120px;
+        margin-top: 10px;
+    }
 
-.download-button {
-    background-image: url(../static/image/download.png);
-    background-repeat: no-repeat;
-    height: 250px;
-    margin-left: 230px;
-    background-size: 500px;
+    .download-button {
+        background-image: url(../static/image/download.png);
+        background-repeat: no-repeat;
+        height: 250px;
+        margin-left: 230px;
+        background-size: 500px;
 
-}
+    }
 
-.pic-2 {
-    display: none;
-}
+    .pic-2 {
+        display: none;
+    }
 
-.pic-3 {
-    height: 120px;
-    margin-left: 120px;
-}
+    .pic-3 {
+        height: 120px;
+        margin-left: 120px;
+    }
 
-.pict {
-    margin-top: -150px;
-    float: right;
-    margin-right: 100px;
-    height: 180px;
-}
+    .pict {
+        margin-top: -150px;
+        float: right;
+        margin-right: 100px;
+        height: 180px;
+    }
 
-h2 {
-    margin-top: 50px;
-}
+    h2 {
+        margin-top: 50px;
+    }
 
-.update {
-    margin-left: 700px;
-    height: 50px;
-    width: 100px;
-    font-size: 20px;
-    color: #006e4f;
-}
-
-
+    .update {
+        margin-left: 700px;
+        height: 50px;
+        width: 100px;
+        font-size: 20px;
+        color: #006e4f;
+    }
 </style>
 {% endblock %}
