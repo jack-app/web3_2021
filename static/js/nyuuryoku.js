@@ -9,11 +9,11 @@ const nyuuryokuStart = function() {
         filename.style.display = "block";
     }
 }
+
 const changeFile = function() {
     var gakuseki =
         filename.value = String(readCookie(gakuseki)) + String(readCookie(myname));
 }
-
 
 const cookieKousin = function() {
     const gakuseki = document.getElementById("gakuseki").value;
@@ -30,13 +30,10 @@ const cookieKousin = function() {
     sendData();
 }
 
-
-
 const sendData = function() {
-
-    console.log("send!");
     var hostUrl = '/';
     let gakuseki;
+
     $.ajax({
         url: hostUrl,
         type: 'POST',
@@ -46,6 +43,7 @@ const sendData = function() {
     }).done(function(data) {
         alert("名前登録完了");
     }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-        alert("error");
+        alert("登録が正常に完了しませんでした");
+        console.log(errorThrown);
     })
 }
